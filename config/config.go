@@ -28,7 +28,7 @@ type (
 	}
 
 	Server struct {
-		Port         int           `mapstructure:"port" validate:"required"`
+		Port         int          `mapstructure:"port" validate:"required"`
 		AllowOrigins []string      `mapstructure:"allowOrigins" validate:"required"`
 		Timeout      time.Duration `mapstructure:"timeout" validate:"required"`
 		BodyLimit    string        `mapstructure:"bodyLimit" validate:"required"`

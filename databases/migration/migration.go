@@ -4,51 +4,50 @@ import (
 	"github.com/neth/isekai-shop/config"
 	"github.com/neth/isekai-shop/databases"
 	"github.com/neth/isekai-shop/entitise"
-
+	"gorm.io/gorm"
 )
 
 func main() {
-
 	conf := config.ConfigGetting()
 	db := databases.NewPostgresDatabase(conf.Database)
+	tx := db.ConnectedGetting().Begin()
 
-	// tx := db.ConnectedGetting().Begin()
+	playerMigration(tx)
+	adminMigration(tx)
+	playCoinMigration(tx)
+	itemMigration(tx)
+	inventoryMigration(tx)
+	purchaseMigration(tx)
 
-	playerMigration(db)
-	adminMigration(db)
-	playCoinMigration(db)
-	itemMigration(db)
-	inventoryMigration(db)
-	purchaseMigration(db)
-
-	// if err := tx.Commit(); err != nil {
-	// 	tx.Rollback()
-	// 	panic(err)
-	// }
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		panic(err)
+	}
 }
 
-func playerMigration(tx databases.Databases) {
 
-	tx.ConnectedGetting().Migrator().CreateTable(&entitise.Player{})
+func playerMigration(tx *gorm.DB) {
+
+	tx.Migrator().CreateTable(&entitise.Player{})
 }
 
-func adminMigration(tx databases.Databases) {
-	tx.ConnectedGetting().Migrator().CreateTable(entitise.Admin{})
+func adminMigration(tx *gorm.DB) {
+	tx.Migrator().CreateTable(entitise.Admin{})
 }
 
-func playCoinMigration(tx databases.Databases) {
-	tx.ConnectedGetting().Migrator().CreateTable(&entitise.PlayerCoin{})
+func playCoinMigration(tx *gorm.DB) {
+	tx.Migrator().CreateTable(&entitise.PlayerCoin{})
 }
 
-func itemMigration(tx databases.Databases) {
-	tx.ConnectedGetting().Migrator().CreateTable(&entitise.Item{})
+func itemMigration(tx *gorm.DB) {
+	tx.Migrator().CreateTable(&entitise.Item{})
 
 }
 
-func inventoryMigration(tx databases.Databases) {
-	tx.ConnectedGetting().Migrator().CreateTable(&entitise.Inventory{})
+func inventoryMigration(tx *gorm.DB) {
+	tx.Migrator().CreateTable(&entitise.Inventory{})
 }
 
-func purchaseMigration(tx databases.Databases) {
-	tx.ConnectedGetting().Migrator().CreateTable(&entitise.PurchaseHistory{})
+func purchaseMigration(tx *gorm.DB) {
+	tx.Migrator().CreateTable(&entitise.PurchaseHistory{})
 }
