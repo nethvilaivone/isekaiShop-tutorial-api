@@ -1,6 +1,9 @@
 package entitise
 
-import "time"
+import (
+	_playerCoinModel "github.com/neth/isekai-shop/pkg/itemShop/model"
+	"time"
+)
 
 type (
 	PlayerCoin struct {
@@ -10,3 +13,14 @@ type (
 		CreatedAt time.Time `gorm:"not null;autoCreateTime;"`
 	}
 )
+
+
+
+func (p *PlayerCoin) ToplayitemModel() *_playerCoinModel.PlayerCoin {
+	return &_playerCoinModel.PlayerCoin{
+		ID:        p.ID,
+		PlayerID:  p.PlayerID,
+		Amount:    p.Amount,
+		CreatedAt: p.CreatedAt,
+	}
+}

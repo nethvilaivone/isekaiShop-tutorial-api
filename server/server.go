@@ -59,7 +59,7 @@ func (s *echoServer) Start() {
 
 
 	s.app.GET("/v1/health", s.healthcheck)
-
+    s.initItemshopRouter()
 	ch := make(chan os.Signal, 1)
 
 	signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM)

@@ -2,6 +2,8 @@ package entitise
 
 import (
 	"time"
+
+	_itemShopModel "github.com/neth/isekai-shop/pkg/itemShop/model"
 )
 
 type Item struct {
@@ -16,3 +18,14 @@ type Item struct {
 	UpdatedAt   time.Time `gorm:"not null;autoUpdateTime;"`
 }
 
+// convert entitise to Model  
+func (i *Item) ToitemModel() *_itemShopModel.Item {
+	return &_itemShopModel.Item{
+		ID:          i.ID,
+		Name:        i.Name,
+		Description: i.Description,
+		Picture:     i.Picture,
+		Price:       i.Price,
+	}
+
+}

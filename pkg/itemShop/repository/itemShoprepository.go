@@ -1,5 +1,9 @@
-package repository 
+package repository
 
-type ItemShopRepository interface{
-	
+import "github.com/neth/isekai-shop/entitise"
+
+type ItemShopRepository interface {
+		Listing() ([]*entitise.Item, error)	
+		
+
 }
